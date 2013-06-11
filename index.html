@@ -15,5 +15,26 @@
     </style>
 </head>
 <body>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script type="text/javascript">
+    (function() {
+        var images = [];
+        images.push("img/sample.jpg");
+        images.push("img/sample2.jpg");
+
+        var indexOfCurrentImage = 0;
+
+        var displayImage = function() {
+            console.log("About to display a new image.");
+            var indexOfNextImage = indexOfCurrentImage + 1 < images.length ? indexOfCurrentImage + 1 : 0;
+            var url = images[indexOfNextImage];
+            $('html').css('background', 'url(' + url + ') no-repeat center center fixed');
+            indexOfCurrentImage = indexOfNextImage;
+        };
+
+        window.setInterval(displayImage, 5000);
+    }());
+</script>
 </body>
 </html>
