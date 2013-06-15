@@ -30,6 +30,7 @@
             var indexOfNextImage = indexOfCurrentImage + 1 < images.length ? indexOfCurrentImage + 1 : 0;
             var url = images[indexOfNextImage];
             $('html').css('background', 'url(' + url + ') no-repeat center center fixed');
+            $('html').css('background-size', 'cover');
             indexOfCurrentImage = indexOfNextImage;
         };
 
