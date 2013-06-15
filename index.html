@@ -5,37 +5,51 @@
     <title>Auto Image Circle</title>
 
     <style type="text/css">
-        html {
-            background: url(img/sample.jpg) no-repeat center center fixed;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
+        #bg {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+        }
+        #bg img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            min-width: 50%;
+            min-height: 50%;
         }
     </style>
 </head>
 <body>
 
+<div id="bg">
+    <img src="img/sample.jpg" alt="">
+</div>
+
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script type="text/javascript">
-    (function() {
+    $(function() {
         var images = [];
         images.push("img/sample.jpg");
         images.push("img/sample2.jpg");
 
+        var imgElem = $('#bg img')
         var indexOfCurrentImage = 0;
 
         var displayImage = function() {
             console.log("About to display a new image.");
             var indexOfNextImage = indexOfCurrentImage + 1 < images.length ? indexOfCurrentImage + 1 : 0;
             var url = images[indexOfNextImage];
-            $('html').css('background', 'url(' + url + ') no-repeat center center fixed');
-            $('html').css('background-size', 'cover');
+            imgElem.attr('src', url);
             indexOfCurrentImage = indexOfNextImage;
         };
 
         window.setInterval(displayImage, 5000);
-    }());
+    });
 </script>
 </body>
 </html>
