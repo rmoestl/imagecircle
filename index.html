@@ -32,7 +32,7 @@
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script type="text/javascript">
-    $(function() {
+    $(function () {
         var images = [];
         images.push("img/sample.jpg");
         images.push("img/sample2.jpg");
@@ -40,12 +40,15 @@
         var imgElem = $('#bg img')
         var indexOfCurrentImage = 0;
 
-        var displayImage = function() {
-            console.log("About to display a new image.");
-            var indexOfNextImage = indexOfCurrentImage + 1 < images.length ? indexOfCurrentImage + 1 : 0;
-            var url = images[indexOfNextImage];
-            imgElem.attr('src', url);
-            indexOfCurrentImage = indexOfNextImage;
+        var displayImage = function () {
+            imgElem.fadeOut('slow', function () {
+                var indexOfNextImage = indexOfCurrentImage + 1 < images.length ? indexOfCurrentImage + 1 : 0;
+                var url = images[indexOfNextImage];
+                imgElem.attr('src', url);
+                imgElem.fadeIn('slow');
+                indexOfCurrentImage = indexOfNextImage;
+
+            });
         };
 
         window.setInterval(displayImage, 5000);
