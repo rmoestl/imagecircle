@@ -33,25 +33,38 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script type="text/javascript">
     $(function () {
-        var images = [];
-        images.push("img/sample.jpg");
-        images.push("img/sample2.jpg");
+        var fetchConfig = function () {
+            var jqXHR = $.getJSON("config.json", function (data) {
+                //console.log("Got a new configuration " + data.images.length);
+                images = data.images;
+            });
+            return jqXHR;
+        }
 
+        var images = [];
         var imgElem = $('#bg img')
         var indexOfCurrentImage = 0;
 
         var displayImage = function () {
             imgElem.fadeOut('slow', function () {
                 var indexOfNextImage = indexOfCurrentImage + 1 < images.length ? indexOfCurrentImage + 1 : 0;
+
+                // Renew config
+                if (indexOfNextImage === 0) {
+                    fetchConfig();
+                }
+
                 var url = images[indexOfNextImage];
                 imgElem.attr('src', url);
                 imgElem.fadeIn('slow');
                 indexOfCurrentImage = indexOfNextImage;
-
             });
         };
 
-        window.setInterval(displayImage, 5000);
+        // Initial fetch of the configuration and after success, starting the image circle
+        fetchConfig().success(function () {
+            window.setInterval(displayImage, 5000);
+        });
     });
 </script>
 </body>
