@@ -4,7 +4,10 @@
     <meta charset="utf-8">
     <title>Auto Image Circle</title>
 
-    <style type="text/css">
+	<!-- TODO Add a auto refresh after a certain period of time -->
+	<!-- TOOD Add Caduceus monitoring -->
+
+	<style type="text/css">
         #bg {
             position: fixed;
             top: -50%;
@@ -55,7 +58,9 @@
                 }
 
                 var url = images[indexOfNextImage];
-                imgElem.attr('src', url);
+                imgElem.attr('src', url); 
+                
+                // TODO Wait with fadeIn until new image is loaded
                 imgElem.fadeIn('slow');
                 indexOfCurrentImage = indexOfNextImage;
             });
