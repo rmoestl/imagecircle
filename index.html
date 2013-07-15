@@ -8,14 +8,14 @@
 	<!-- TOOD Add Caduceus monitoring -->
 
 	<style type="text/css">
-        #bg {
+        .bg {
             position: fixed;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
         }
-        #bg img {
+        .bg img {
             position: absolute;
             top: 0;
             left: 0;
@@ -29,9 +29,8 @@
 </head>
 <body>
 
-<div id="bg">
-    <img src="img/initial-background.png" alt="">
-</div>
+<div id="initial-bg" class="bg"><img src="img/initial-background.png" alt=""></div>
+<div id="img-container"></div>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script type="text/javascript">
@@ -42,33 +41,36 @@
                 images = data.images;
             });
             return jqXHR;
-        }
+        };
 
+        var initialImage = $('#initial-bg');
         var images = [];
-        var imgElem = $('#bg img')
         var indexOfCurrentImage = 0;
 
         var displayImage = function () {
-            imgElem.fadeOut('slow', function () {
+            if (initialImage.is(':visible')) {
+                initialImage.fadeOut('slow', function() {
+                    $('img[src="' + images[0] + '"]').parent('.bg').fadeIn('slow');
+                    indexOfCurrentImage = 0;
+                });
+            } else {
                 var indexOfNextImage = indexOfCurrentImage + 1 < images.length ? indexOfCurrentImage + 1 : 0;
-
-                // Renew config
-                if (indexOfNextImage === 0) {
-                    fetchConfig();
-                }
-
-                var url = images[indexOfNextImage];
-                imgElem.attr('src', url); 
-                
-                // TODO Wait with fadeIn until new image is loaded
-                imgElem.fadeIn('slow');
-                indexOfCurrentImage = indexOfNextImage;
-            });
+                $('img[src="' + images[indexOfCurrentImage] + '"]').parent('.bg').fadeOut('slow', function() {
+                    $('img[src="' + images[indexOfNextImage] + '"]').parent('.bg').fadeIn('slow');
+                    indexOfCurrentImage = indexOfNextImage;
+                });
+            }
         };
 
         // Initial fetch of the configuration and after success, starting the image circle
         fetchConfig().success(function () {
-            window.setInterval(displayImage, 12000);
+            for (var i = 0, length = images.length; i < length; i++) {
+                var imageUrl = images[i];
+                var bgElem = '<div class="bg" style="display: none;"><img src="' + imageUrl + '" alt=""/></div>';
+                $('#img-container').append(bgElem);
+            }
+            indexOfCurrentImage = images.length - 1;
+            window.setInterval(displayImage, 5000);
         });
     });
 </script>
