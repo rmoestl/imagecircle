@@ -36,7 +36,9 @@
 <script type="text/javascript">
     $(function () {
         var fetchConfig = function () {
-            var jqXHR = $.getJSON("config.json", function (data) {
+			// config.html because config.json cannot be delivered by telekom business server
+			var jqXHR = $.getJSON("config.html", function (data) {
+            //var jqXHR = $.getJSON("config.json", function (data) {			
                 //console.log("Got a new configuration " + data.images.length);
                 images = data.images;
             });
@@ -70,7 +72,7 @@
                 $('#img-container').append(bgElem);
             }
             indexOfCurrentImage = images.length - 1;
-            window.setInterval(displayImage, 5000);
+            window.setInterval(displayImage, 12000);
         });
     });
 </script>
